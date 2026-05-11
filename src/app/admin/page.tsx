@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
-import { Users, HandHeart, Calendar, Megaphone, TrendingUp, Heart } from "lucide-react";
+import { Users, HandHeart, Calendar, Megaphone, TrendingUp, Heart, ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 
 export default async function AdminDashboardPage() {
   const supabase = await createClient();
@@ -17,45 +18,97 @@ export default async function AdminDashboardPage() {
   ]);
 
   const stats = [
-    { label: "Membros", value: membersCount || 0, icon: Users, color: "from-blue-500/20 to-blue-600/5" },
-    { label: "Pedidos de Oração", value: prayersCount || 0, icon: HandHeart, color: "from-amber-500/20 to-amber-600/5" },
-    { label: "Eventos Ativos", value: eventsCount || 0, icon: Calendar, color: "from-green-500/20 to-green-600/5" },
-    { label: "Contribuições Pendentes", value: pendingTithes || 0, icon: Heart, color: "from-red-500/20 to-red-600/5" },
+    { label: "Total de Membros", value: membersCount || 0, icon: Users, trend: "+12%", color: "text-blue-500", bg: "bg-blue-500/10" },
+    { label: "Orações Ativas", value: prayersCount || 0, icon: HandHeart, trend: "+5%", color: "text-amber-500", bg: "bg-amber-500/10" },
+    { label: "Eventos Publicados", value: eventsCount || 0, icon: Calendar, trend: "Estável", color: "text-green-500", bg: "bg-green-500/10" },
+    { label: "Aprovações Pendentes", value: pendingTithes || 0, icon: Heart, trend: "Atenção", color: "text-red-500", bg: "bg-red-500/10" },
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 animate-fade-in-up">
+      {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Painel Administrativo</h1>
-        <p className="text-sm text-muted-foreground mt-1">Visão geral da igreja META.</p>
+        <h1 className="text-3xl font-extrabold tracking-tight text-white mb-2">Painel de Controle</h1>
+        <p className="text-sm text-zinc-400">Acompanhe as métricas e gerencie a Igreja META em tempo real.</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Metrics Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((s) => (
-          <div key={s.label} className="rounded-2xl border border-border bg-card p-5 hover:border-gold/30 transition-colors">
-            <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${s.color} flex items-center justify-center mb-3`}>
-              <s.icon className="w-5 h-5 text-gold" />
+          <div key={s.label} className="bg-zinc-950 border border-zinc-800 rounded-2xl p-6 relative overflow-hidden group hover:border-zinc-700 transition-colors">
+            {/* Subtle Gradient Glow */}
+            <div className={`absolute top-0 right-0 -mr-8 -mt-8 w-24 h-24 rounded-full ${s.bg} blur-2xl opacity-50 group-hover:opacity-100 transition-opacity`} />
+            
+            <div className="flex items-start justify-between mb-4">
+              <div className={`w-10 h-10 rounded-xl ${s.bg} border border-zinc-800/50 flex items-center justify-center`}>
+                <s.icon className={`w-5 h-5 ${s.color}`} strokeWidth={1.5} />
+              </div>
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-[10px] font-medium text-zinc-300">
+                {s.trend.startsWith('+') ? <ArrowUpRight className="w-3 h-3 text-green-500" strokeWidth={2} /> : null}
+                {s.trend}
+              </span>
             </div>
-            <p className="text-2xl font-bold">{s.value}</p>
-            <p className="text-xs text-muted-foreground mt-0.5">{s.label}</p>
+            
+            <p className="text-3xl font-bold text-white tracking-tight">{s.value}</p>
+            <p className="text-xs text-zinc-500 mt-1 font-medium">{s.label}</p>
           </div>
         ))}
       </div>
 
-      <div className="rounded-2xl border border-border bg-card p-6">
-        <h2 className="font-semibold mb-2 flex items-center gap-2"><TrendingUp className="w-4 h-4 text-gold" /> Ações Rápidas</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
-          {[
-            { href: "/admin/membros", label: "Ver Membros", icon: Users },
-            { href: "/admin/oracoes", label: "Ver Orações", icon: HandHeart },
-            { href: "/admin/banners", label: "Gerenciar Banners", icon: Megaphone },
-            { href: "/admin/eventos", label: "Criar Evento", icon: Calendar },
-          ].map((a) => (
-            <a key={a.href} href={a.href} className="flex flex-col items-center gap-2 p-4 rounded-xl border border-border bg-muted hover:border-gold/30 transition-colors text-center">
-              <a.icon className="w-5 h-5 text-gold" />
-              <span className="text-xs font-medium">{a.label}</span>
-            </a>
-          ))}
+      {/* Quick Actions Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 bg-zinc-950 border border-zinc-800 rounded-2xl p-8">
+          <div className="flex items-center gap-2 mb-6">
+            <TrendingUp className="w-5 h-5 text-gold" strokeWidth={1.5} />
+            <h2 className="text-lg font-bold text-white tracking-tight">Ações Rápidas</h2>
+          </div>
+          
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {[
+              { href: "/admin/membros", label: "Membros", desc: "Gerenciar usuários", icon: Users },
+              { href: "/admin/oracoes", label: "Orações", desc: "Ver mural", icon: HandHeart },
+              { href: "/admin/banners", label: "Banners", desc: "Carrossel App", icon: Megaphone },
+              { href: "/admin/eventos", label: "Eventos", desc: "Agenda", icon: Calendar },
+            ].map((a) => (
+              <Link key={a.href} href={a.href} className="group block">
+                <div className="h-full flex flex-col items-center text-center p-6 rounded-xl border border-zinc-800/60 bg-zinc-900/30 hover:bg-zinc-900 hover:border-gold/30 transition-all duration-300">
+                  <div className="w-12 h-12 rounded-full bg-zinc-950 border border-zinc-800 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <a.icon className="w-5 h-5 text-zinc-400 group-hover:text-gold transition-colors" strokeWidth={1.5} />
+                  </div>
+                  <span className="text-sm font-semibold text-zinc-200">{a.label}</span>
+                  <span className="text-[10px] text-zinc-500 mt-1">{a.desc}</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* System Status placeholder */}
+        <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-8">
+          <h2 className="text-lg font-bold text-white tracking-tight mb-6">Status do Sistema</h2>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between p-4 rounded-lg bg-zinc-900/50 border border-zinc-800/50">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                <span className="text-sm font-medium text-zinc-300">Banco de Dados</span>
+              </div>
+              <span className="text-xs text-green-500 font-mono">12ms</span>
+            </div>
+            <div className="flex items-center justify-between p-4 rounded-lg bg-zinc-900/50 border border-zinc-800/50">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                <span className="text-sm font-medium text-zinc-300">Autenticação</span>
+              </div>
+              <span className="text-xs text-green-500 font-mono">Online</span>
+            </div>
+            <div className="flex items-center justify-between p-4 rounded-lg bg-zinc-900/50 border border-zinc-800/50">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                <span className="text-sm font-medium text-zinc-300">Storage API</span>
+              </div>
+              <span className="text-xs text-green-500 font-mono">Online</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

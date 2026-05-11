@@ -1,100 +1,54 @@
 @import "tailwindcss";
 
 /* ============================================================
-   META ChMS — Design System
-   Cores: Preto (Dark/Elegância), Branco (Leitura), Amarelo Ouro (Destaques)
+   META ChMS — Premium Design System (Linear/Vercel style)
    ============================================================ */
 
-:root {
-  --background: #ffffff;
-  --foreground: #0a0a0a;
-  --card: #f8f8f8;
-  --card-foreground: #0a0a0a;
-  --muted: #f1f1f1;
-  --muted-foreground: #6b6b6b;
-  --border: #e5e5e5;
-  --input: #e5e5e5;
-  --ring: #d4a017;
-  --radius: 0.75rem;
-
-  /* Gold Accent */
-  --gold: #d4a017;
-  --gold-light: #f0d060;
-  --gold-dark: #b8860b;
-
-  /* Semantic */
-  --success: #22c55e;
-  --destructive: #ef4444;
-  --warning: #f59e0b;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #000000;
-    --foreground: #f5f5f5;
-    --card: #111111;
-    --card-foreground: #f5f5f5;
-    --muted: #1a1a1a;
-    --muted-foreground: #a3a3a3;
-    --border: #222222;
-    --input: #222222;
-  }
-}
-
-/* Force dark mode (app is dark-first) */
-.dark {
-  --background: #000000;
-  --foreground: #f5f5f5;
-  --card: #111111;
-  --card-foreground: #f5f5f5;
-  --muted: #1a1a1a;
-  --muted-foreground: #a3a3a3;
-  --border: #222222;
-  --input: #222222;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-gold: var(--gold);
-  --color-gold-light: var(--gold-light);
-  --color-gold-dark: var(--gold-dark);
-  --color-success: var(--success);
-  --color-destructive: var(--destructive);
-  --color-warning: var(--warning);
-  --font-sans: var(--font-inter);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: var(--radius);
-  --radius-lg: calc(var(--radius) + 4px);
-  --radius-xl: calc(var(--radius) + 8px);
+@theme {
+  /* Core Colors */
+  --color-background: #000000;
+  --color-foreground: #fafafa;
+  
+  /* Cards & Surfaces */
+  --color-card: #09090B;
+  --color-card-foreground: #fafafa;
+  --color-muted: #27272a;
+  --color-muted-foreground: #a1a1aa; /* zinc-400 */
+  
+  /* Borders & Inputs */
+  --color-border: #27272a; /* zinc-800 */
+  --color-input: #27272a;
+  
+  /* Accents (Gold/Amber) */
+  --color-gold: #f59e0b; /* amber-500 */
+  --color-gold-light: #fbbf24; /* amber-400 */
+  --color-gold-dark: #d97706; /* amber-600 */
+  
+  /* Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
 }
 
 /* ============================================================
-   Base Styles
+   Base Resets & Globals
    ============================================================ */
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  border-color: var(--border);
+  border-color: var(--color-border);
 }
 
 html {
   scroll-behavior: smooth;
   -webkit-tap-highlight-color: transparent;
+  background: var(--color-background);
+  color: var(--color-foreground);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
   font-family: var(--font-inter, 'Inter', system-ui, -apple-system, sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -102,7 +56,15 @@ body {
 }
 
 /* ============================================================
-   Custom Scrollbar (Webkit)
+   Typography Polish
+   ============================================================ */
+
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.02em; /* tracking-tight */
+}
+
+/* ============================================================
+   Custom Scrollbar
    ============================================================ */
 
 ::-webkit-scrollbar {
@@ -115,139 +77,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--muted-foreground);
+  background: #3f3f46; /* zinc-700 */
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--gold);
-}
-
-/* ============================================================
-   Animations
-   ============================================================ */
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeInScale {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-@keyframes pulse-gold {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 160, 23, 0.4); }
-  50% { box-shadow: 0 0 0 12px rgba(212, 160, 23, 0); }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.5s ease-out forwards;
-}
-
-.animate-fade-in-scale {
-  animation: fadeInScale 0.4s ease-out forwards;
-}
-
-.animate-slide-up {
-  animation: slideUp 0.6s ease-out forwards;
-}
-
-.animate-shimmer {
-  background: linear-gradient(90deg, transparent 0%, rgba(212,160,23,0.08) 50%, transparent 100%);
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite;
-}
-
-.animate-pulse-gold {
-  animation: pulse-gold 2s infinite;
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-/* Stagger animation delays */
-.stagger-1 { animation-delay: 0.1s; opacity: 0; }
-.stagger-2 { animation-delay: 0.2s; opacity: 0; }
-.stagger-3 { animation-delay: 0.3s; opacity: 0; }
-.stagger-4 { animation-delay: 0.4s; opacity: 0; }
-.stagger-5 { animation-delay: 0.5s; opacity: 0; }
-
-/* ============================================================
-   Utility Classes
-   ============================================================ */
-
-.gold-gradient {
-  background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 50%, var(--gold-light) 100%);
-}
-
-.gold-text {
-  background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 50%, var(--gold-light) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.glass {
-  background: rgba(17, 17, 17, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.glass-light {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-/* Button Gold */
-.btn-gold {
-  background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 100%);
-  color: #000000;
-  font-weight: 600;
-  border-radius: var(--radius);
-  transition: all 0.3s ease;
-  cursor: pointer;
-  border: none;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-gold:hover {
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(212, 160, 23, 0.25);
-}
-
-.btn-gold:active {
-  transform: translateY(0);
-}
-
-/* Skeleton Loader */
-.skeleton {
-  background: linear-gradient(90deg, var(--muted) 25%, var(--border) 50%, var(--muted) 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s ease-in-out infinite;
-  border-radius: var(--radius);
+  background: var(--color-gold);
 }
 
 /* Hide scrollbar but allow scroll */
@@ -260,14 +95,103 @@ body {
   display: none;
 }
 
-/* Focus styles */
-*:focus-visible {
-  outline: 2px solid var(--gold);
-  outline-offset: 2px;
+/* ============================================================
+   Animations & Effects
+   ============================================================ */
+
+@keyframes fade-in-up {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
 }
 
-/* Selection color */
-::selection {
-  background: rgba(212, 160, 23, 0.3);
-  color: var(--foreground);
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Stagger delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+
+/* ============================================================
+   Components & Utilities
+   ============================================================ */
+
+.btn-primary {
+  background: linear-gradient(to right, var(--color-gold-light), var(--color-gold-dark));
+  color: #000000;
+  font-weight: 600;
+  border-radius: var(--radius-lg);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 14px 0 rgba(245, 158, 11, 0.2);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-ghost {
+  color: var(--color-foreground);
+  font-weight: 500;
+  border-radius: var(--radius-lg);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Bento Grid Card Base */
+.bento-card {
+  background: rgba(24, 24, 27, 0.4); /* zinc-900/40 */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-2xl);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.bento-card:hover {
+  border-color: rgba(245, 158, 11, 0.2);
+  background: rgba(24, 24, 27, 0.6);
+}
+
+.text-gradient {
+  background: linear-gradient(to right, #fafafa, #a1a1aa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glass effect for navbar */
+.nav-glass {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }

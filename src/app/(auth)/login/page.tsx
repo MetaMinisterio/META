@@ -23,47 +23,50 @@ export default function LoginPage() {
   const pending = mode === "password" ? passwordPending : magicPending;
 
   return (
-    <main className="min-h-dvh flex items-center justify-center px-4 py-12 relative">
-      {/* Background effects */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/3 -left-32 w-80 h-80 bg-gold/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/3 -right-32 w-80 h-80 bg-gold/5 rounded-full blur-[120px]" />
-      </div>
+    <main className="min-h-dvh flex items-center justify-center px-4 py-12 relative overflow-hidden bg-black">
+      {/* Background Image & Overlays */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30 grayscale mix-blend-luminosity"
+        style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1438283173091-5dbf5c5a3206?q=80&w=2000&auto=format&fit=crop")' }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/95 to-black" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/5 rounded-full blur-[150px] pointer-events-none" />
 
-      <div className="relative z-10 w-full max-w-md">
+      <div className="relative z-10 w-full max-w-[420px]">
         {/* Back button */}
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-gold transition-colors mb-8"
+          className="inline-flex items-center gap-2 text-sm text-white/50 hover:text-gold transition-colors mb-10 group"
         >
-          <ArrowLeft className="w-4 h-4" />
-          Voltar
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          Voltar para o início
         </Link>
 
-        {/* Logo */}
-        <div className="flex items-center gap-3 mb-8">
-          <div className="w-11 h-11 rounded-xl gold-gradient flex items-center justify-center">
-            <span className="text-black font-extrabold text-lg">M</span>
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">Entrar</h1>
-            <p className="text-sm text-muted-foreground">
+        {/* Card */}
+        <div className="bg-white/[0.02] backdrop-blur-xl rounded-3xl p-8 sm:p-10 border border-white/[0.05] shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-1 gold-gradient opacity-80" />
+          <div className="absolute -top-32 -right-32 w-64 h-64 bg-gold/10 rounded-full blur-[80px] pointer-events-none" />
+
+          {/* Header */}
+          <div className="flex flex-col items-center text-center mb-10">
+            <div className="w-14 h-14 rounded-2xl gold-gradient flex items-center justify-center mb-5 shadow-lg shadow-gold/20">
+              <span className="text-black font-extrabold text-2xl tracking-tighter">M</span>
+            </div>
+            <h1 className="text-3xl font-bold tracking-tight text-white mb-2">Bem-vindo</h1>
+            <p className="text-sm text-white/60">
               Acesse sua conta na Igreja META
             </p>
           </div>
-        </div>
 
-        {/* Card */}
-        <div className="glass rounded-2xl p-6 sm:p-8 border border-border">
           {/* Mode toggle */}
-          <div className="flex rounded-xl bg-muted p-1 mb-6">
+          <div className="flex rounded-xl bg-black/40 p-1 mb-8 border border-white/5">
             <button
               type="button"
               onClick={() => setMode("password")}
-              className={`flex-1 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
+              className={`flex-1 py-3 text-xs font-semibold rounded-lg transition-all duration-300 ${
                 mode === "password"
-                  ? "bg-card text-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "bg-white/10 text-white shadow-md backdrop-blur-md"
+                  : "text-white/40 hover:text-white/80"
               }`}
             >
               Email & Senha
@@ -71,37 +74,37 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={() => setMode("magic")}
-              className={`flex-1 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
+              className={`flex-1 py-3 text-xs font-semibold rounded-lg transition-all duration-300 ${
                 mode === "magic"
-                  ? "bg-card text-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "bg-white/10 text-white shadow-md backdrop-blur-md"
+                  : "text-white/40 hover:text-white/80"
               }`}
             >
-              Magic Link
+              Link Mágico
             </button>
           </div>
 
           {/* Status messages */}
           {state.error && (
-            <div className="mb-4 p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+            <div className="mb-6 p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm font-medium animate-fade-in">
               {state.error}
             </div>
           )}
           {state.success && (
-            <div className="mb-4 p-3 rounded-lg bg-success/10 border border-success/20 text-success text-sm flex items-start gap-2">
+            <div className="mb-6 p-4 rounded-xl bg-success/10 border border-success/20 text-success text-sm font-medium flex items-start gap-2 animate-fade-in">
               <Sparkles className="w-4 h-4 mt-0.5 shrink-0" />
               {state.success}
             </div>
           )}
 
           {mode === "password" ? (
-            <form action={passwordAction} className="space-y-4">
+            <form action={passwordAction} className="space-y-5 animate-fade-in">
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium mb-1.5"
+                  className="block text-xs font-medium text-white/70 mb-2 uppercase tracking-wider"
                 >
-                  Email
+                  E-mail
                 </label>
                 <input
                   id="email"
@@ -109,15 +112,15 @@ export default function LoginPage() {
                   type="email"
                   required
                   autoComplete="email"
-                  placeholder="seu@email.com"
-                  className="w-full px-4 py-3 rounded-xl bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:border-gold focus:ring-1 focus:ring-gold/50 transition-colors text-sm outline-none"
+                  placeholder="exemplo@email.com"
+                  className="w-full px-5 py-4 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 focus:border-gold focus:ring-1 focus:ring-gold/50 transition-all text-sm outline-none"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium mb-1.5"
+                  className="block text-xs font-medium text-white/70 mb-2 uppercase tracking-wider"
                 >
                   Senha
                 </label>
@@ -128,18 +131,18 @@ export default function LoginPage() {
                     type={showPassword ? "text" : "password"}
                     required
                     autoComplete="current-password"
-                    placeholder="••••••"
-                    className="w-full px-4 py-3 rounded-xl bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:border-gold focus:ring-1 focus:ring-gold/50 transition-colors text-sm outline-none pr-12"
+                    placeholder="••••••••"
+                    className="w-full px-5 py-4 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 focus:border-gold focus:ring-1 focus:ring-gold/50 transition-all text-sm outline-none pr-12"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors"
                   >
                     {showPassword ? (
-                      <EyeOff className="w-4 h-4" />
+                      <EyeOff className="w-5 h-5" />
                     ) : (
-                      <Eye className="w-4 h-4" />
+                      <Eye className="w-5 h-5" />
                     )}
                   </button>
                 </div>
@@ -148,23 +151,23 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={pending}
-                className="btn-gold w-full py-3.5 text-sm font-bold rounded-xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn-gold w-full py-4 mt-2 text-sm font-bold rounded-xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-gold/10"
               >
                 {pending ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <Loader2 className="w-5 h-5 animate-spin text-black" />
                 ) : (
-                  "Entrar"
+                  "Acessar Plataforma"
                 )}
               </button>
             </form>
           ) : (
-            <form action={magicAction} className="space-y-4">
+            <form action={magicAction} className="space-y-5 animate-fade-in">
               <div>
                 <label
                   htmlFor="magic-email"
-                  className="block text-sm font-medium mb-1.5"
+                  className="block text-xs font-medium text-white/70 mb-2 uppercase tracking-wider"
                 >
-                  Email
+                  E-mail
                 </label>
                 <input
                   id="magic-email"
@@ -172,42 +175,41 @@ export default function LoginPage() {
                   type="email"
                   required
                   autoComplete="email"
-                  placeholder="seu@email.com"
-                  className="w-full px-4 py-3 rounded-xl bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:border-gold focus:ring-1 focus:ring-gold/50 transition-colors text-sm outline-none"
+                  placeholder="exemplo@email.com"
+                  className="w-full px-5 py-4 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 focus:border-gold focus:ring-1 focus:ring-gold/50 transition-all text-sm outline-none"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={pending}
-                className="btn-gold w-full py-3.5 text-sm font-bold rounded-xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn-gold w-full py-4 mt-2 text-sm font-bold rounded-xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-gold/10"
               >
                 {pending ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <Loader2 className="w-5 h-5 animate-spin text-black" />
                 ) : (
                   <>
-                    <Mail className="w-4 h-4" />
-                    Enviar Link de Acesso
+                    <Mail className="w-5 h-5 text-black" />
+                    Receber Link de Acesso
                   </>
                 )}
               </button>
 
-              <p className="text-xs text-muted-foreground text-center">
-                Enviaremos um link mágico para seu email. Sem necessidade de
-                senha!
+              <p className="text-[13px] text-white/50 text-center leading-relaxed">
+                Você receberá um link mágico no seu e-mail para entrar diretamente, sem precisar de senha.
               </p>
             </form>
           )}
         </div>
 
         {/* Footer */}
-        <p className="text-center text-sm text-muted-foreground mt-6">
-          Não tem conta?{" "}
+        <p className="text-center text-[13px] text-white/50 mt-8">
+          Ainda não tem uma conta?{" "}
           <Link
             href="/cadastro"
-            className="text-gold font-semibold hover:text-gold-light transition-colors"
+            className="text-gold font-bold hover:text-gold-light transition-colors ml-1"
           >
-            Criar conta
+            Criar minha conta
           </Link>
         </p>
       </div>

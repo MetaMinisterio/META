@@ -167,7 +167,7 @@ export async function resetPassword(
 
     if (error) {
       console.error("Reset Password Error:", error);
-      return { error: "Erro ao solicitar recuperação. Tente novamente." };
+      return { error: `Supabase: ${error.message}` };
     }
 
     return { success: "E-mail de recuperação enviado! Verifique sua caixa de entrada." };

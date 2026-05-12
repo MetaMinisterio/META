@@ -4,6 +4,7 @@ import BottomNav from "@/components/member/bottom-nav";
 import Link from "next/link";
 import { Home, HandHeart, Heart, Calendar, User, LogOut, Settings } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { signOut } from "@/lib/actions/auth";
 
 const navItems = [
   { href: "/dashboard", label: "Início", icon: Home },
@@ -92,7 +93,7 @@ export default async function MemberLayout({
               Painel Administrativo
             </Link>
           )}
-          <form action="/auth/signout" method="post">
+          <form action={signOut}>
             <button
               type="submit"
               className="flex items-center gap-3 w-full px-4 py-3 rounded-lg text-sm font-medium text-zinc-400 hover:text-destructive hover:bg-destructive/10 transition-all"

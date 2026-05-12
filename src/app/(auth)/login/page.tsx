@@ -2,25 +2,16 @@
 
 import { useActionState, useState } from "react";
 import Link from "next/link";
-import { signInWithEmail, signInWithMagicLink, type AuthState } from "@/lib/actions/auth";
-import { ArrowLeft, Eye, EyeOff, Loader2, Mail, Sparkles } from "lucide-react";
+import { signInWithEmail, type AuthState } from "@/lib/actions/auth";
+import { ArrowLeft, Eye, EyeOff, Loader2, Sparkles } from "lucide-react";
 
 export default function LoginPage() {
-  const [mode, setMode] = useState<"password" | "magic">("password");
   const [showPassword, setShowPassword] = useState(false);
 
-  const [passwordState, passwordAction, passwordPending] = useActionState<AuthState, FormData>(
+  const [state, action, pending] = useActionState<AuthState, FormData>(
     signInWithEmail,
     {}
   );
-
-  const [magicState, magicAction, magicPending] = useActionState<AuthState, FormData>(
-    signInWithMagicLink,
-    {}
-  );
-
-  const state = mode === "password" ? passwordState : magicState;
-  const pending = mode === "password" ? passwordPending : magicPending;
 
   return (
     <main className="min-h-dvh flex items-center justify-center px-4 py-12 relative overflow-hidden bg-black">
@@ -58,158 +49,91 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {/* Mode toggle */}
-          <div className="flex rounded-xl bg-black/40 p-1 mb-8 border border-white/5">
-            <button
-              type="button"
-              onClick={() => setMode("password")}
-              className={`flex-1 py-3 text-xs font-semibold rounded-lg transition-all duration-300 ${
-                mode === "password"
-                  ? "bg-white/10 text-white shadow-md backdrop-blur-md"
-                  : "text-white/40 hover:text-white/80"
-              }`}
-            >
-              Email & Senha
-            </button>
-            <button
-              type="button"
-              onClick={() => setMode("magic")}
-              className={`flex-1 py-3 text-xs font-semibold rounded-lg transition-all duration-300 ${
-                mode === "magic"
-                  ? "bg-white/10 text-white shadow-md backdrop-blur-md"
-                  : "text-white/40 hover:text-white/80"
-              }`}
-            >
-              Link Mágico
-            </button>
-          </div>
-
           {/* Status messages */}
-          {state.error && (
+          {state?.error && (
             <div className="mb-6 p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm font-medium animate-fade-in">
               {state.error}
             </div>
           )}
-          {state.success && (
+          {state?.success && (
             <div className="mb-6 p-4 rounded-xl bg-success/10 border border-success/20 text-success text-sm font-medium flex items-start gap-2 animate-fade-in">
               <Sparkles className="w-4 h-4 mt-0.5 shrink-0" />
               {state.success}
             </div>
           )}
 
-          {mode === "password" ? (
-            <form action={passwordAction} className="space-y-5 animate-fade-in">
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-xs font-medium text-white/70 mb-2 uppercase tracking-wider"
-                >
-                  E-mail
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  autoComplete="email"
-                  placeholder="exemplo@email.com"
-                  className="w-full px-5 py-4 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 focus:border-gold focus:ring-1 focus:ring-gold/50 transition-all text-sm outline-none"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block text-xs font-medium text-white/70 mb-2 uppercase tracking-wider"
-                >
-                  Senha
-                </label>
-                <div className="relative">
-                  <input
-                    id="password"
-                    name="password"
-                    type={showPassword ? "text" : "password"}
-                    required
-                    autoComplete="current-password"
-                    placeholder="••••••••"
-                    className="w-full px-5 py-4 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 focus:border-gold focus:ring-1 focus:ring-gold/50 transition-all text-sm outline-none pr-12"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors"
-                  >
-                    {showPassword ? (
-                      <EyeOff className="w-5 h-5" />
-                    ) : (
-                      <Eye className="w-5 h-5" />
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                disabled={pending}
-                className="btn-gold w-full py-4 mt-2 text-sm font-bold rounded-xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-gold/10"
+          <form action={action} className="space-y-5 animate-fade-in">
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-xs font-medium text-white/70 mb-2 uppercase tracking-wider"
               >
-                {pending ? (
-                  <Loader2 className="w-5 h-5 animate-spin text-black" />
-                ) : (
-                  "Acessar Plataforma"
-                )}
-              </button>
-            </form>
-          ) : (
-            <form action={magicAction} className="space-y-5 animate-fade-in">
-              <div>
-                <label
-                  htmlFor="magic-email"
-                  className="block text-xs font-medium text-white/70 mb-2 uppercase tracking-wider"
-                >
-                  E-mail
-                </label>
-                <input
-                  id="magic-email"
-                  name="email"
-                  type="email"
-                  required
-                  autoComplete="email"
-                  placeholder="exemplo@email.com"
-                  className="w-full px-5 py-4 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 focus:border-gold focus:ring-1 focus:ring-gold/50 transition-all text-sm outline-none"
-                />
-              </div>
+                E-mail
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                autoComplete="email"
+                placeholder="exemplo@email.com"
+                className="w-full px-5 py-4 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 focus:border-gold focus:ring-1 focus:ring-gold/50 transition-all text-sm outline-none"
+              />
+            </div>
 
-              <button
-                type="submit"
-                disabled={pending}
-                className="btn-gold w-full py-4 mt-2 text-sm font-bold rounded-xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-gold/10"
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-xs font-medium text-white/70 mb-2 uppercase tracking-wider"
               >
-                {pending ? (
-                  <Loader2 className="w-5 h-5 animate-spin text-black" />
-                ) : (
-                  <>
-                    <Mail className="w-5 h-5 text-black" />
-                    Receber Link de Acesso
-                  </>
-                )}
-              </button>
+                Senha
+              </label>
+              <div className="relative">
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  required
+                  autoComplete="current-password"
+                  placeholder="Sua senha"
+                  className="w-full px-5 py-4 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 focus:border-gold focus:ring-1 focus:ring-gold/50 transition-all text-sm outline-none pr-12"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors"
+                >
+                  {showPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
+                </button>
+              </div>
+            </div>
 
-              <p className="text-[13px] text-white/50 text-center leading-relaxed">
-                Você receberá um link mágico no seu e-mail para entrar diretamente, sem precisar de senha.
-              </p>
-            </form>
-          )}
+            <button
+              type="submit"
+              disabled={pending}
+              className="btn-gold w-full py-4 mt-2 text-sm font-bold rounded-xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-gold/10"
+            >
+              {pending ? (
+                <Loader2 className="w-5 h-5 animate-spin text-black" />
+              ) : (
+                <>Entrar</>
+              )}
+            </button>
+          </form>
         </div>
 
         {/* Footer */}
         <p className="text-center text-[13px] text-white/50 mt-8">
-          Ainda não tem uma conta?{" "}
+          Ainda não tem conta?{" "}
           <Link
             href="/cadastro"
             className="text-gold font-bold hover:text-gold-light transition-colors ml-1"
           >
-            Criar minha conta
+            Cadastre-se
           </Link>
         </p>
       </div>

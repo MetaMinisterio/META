@@ -33,7 +33,7 @@ export async function signUpWithEmail(
         ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` 
         : "http://localhost:3000";
 
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -50,6 +50,12 @@ export async function signUpWithEmail(
         return { error: "Este email já está cadastrado." };
       }
       return { error: "Erro ao criar conta. Verifique os dados ou tente novamente." };
+    }
+
+    // Se "Confirm Email" está ativo, o Supabase não retorna erro para e-mails existentes,
+    // mas retorna o usuário com o array identities vazio para evitar vazamento de dados.
+    if (data.user && data.user.identities && data.user.identities.length === 0) {
+      return { error: "Este e-mail já está em uso por outra conta." };
     }
 
     return {

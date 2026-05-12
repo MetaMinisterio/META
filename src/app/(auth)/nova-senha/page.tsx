@@ -1,15 +1,13 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import Link from "next/link";
-import { signInWithEmail, type AuthState } from "@/lib/actions/auth";
-import { ArrowLeft, Eye, EyeOff, Loader2, Sparkles } from "lucide-react";
+import { updatePassword, type AuthState } from "@/lib/actions/auth";
+import { Eye, EyeOff, Loader2, Sparkles } from "lucide-react";
 
-export default function LoginPage() {
+export default function UpdatePasswordPage() {
   const [showPassword, setShowPassword] = useState(false);
-
   const [state, action, pending] = useActionState<AuthState, FormData>(
-    signInWithEmail,
+    updatePassword,
     {}
   );
 
@@ -24,32 +22,19 @@ export default function LoginPage() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/5 rounded-full blur-[150px] pointer-events-none" />
 
       <div className="relative z-10 w-full max-w-[420px]">
-        {/* Back button */}
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-sm text-white/50 hover:text-gold transition-colors mb-10 group"
-        >
-          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-          Voltar para o início
-        </Link>
-
-        {/* Card */}
         <div className="bg-white/[0.02] backdrop-blur-xl rounded-3xl p-8 sm:p-10 border border-white/[0.05] shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 left-0 right-0 h-1 gold-gradient opacity-80" />
-          <div className="absolute -top-32 -right-32 w-64 h-64 bg-gold/10 rounded-full blur-[80px] pointer-events-none" />
 
-          {/* Header */}
           <div className="flex flex-col items-center text-center mb-10">
             <div className="w-14 h-14 rounded-2xl gold-gradient flex items-center justify-center mb-5 shadow-lg shadow-gold/20">
               <span className="text-black font-extrabold text-2xl tracking-tighter">M</span>
             </div>
-            <h1 className="text-3xl font-bold tracking-tight text-white mb-2">Bem-vindo</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-white mb-2">Criar Nova Senha</h1>
             <p className="text-sm text-white/60">
-              Acesse sua conta na Igreja META
+              Digite a nova senha para a sua conta
             </p>
           </div>
 
-          {/* Status messages */}
           {state?.error && (
             <div className="mb-6 p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm font-medium animate-fade-in">
               {state.error}
@@ -64,29 +49,8 @@ export default function LoginPage() {
 
           <form action={action} className="space-y-5 animate-fade-in">
             <div>
-              <label
-                htmlFor="email"
-                className="block text-xs font-medium text-white/70 mb-2 uppercase tracking-wider"
-              >
-                E-mail
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                autoComplete="email"
-                placeholder="exemplo@email.com"
-                className="w-full px-5 py-4 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 focus:border-gold focus:ring-1 focus:ring-gold/50 transition-all text-sm outline-none"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-xs font-medium text-white/70 mb-2 uppercase tracking-wider"
-              >
-                Senha
+              <label htmlFor="password" className="block text-xs font-medium text-white/70 mb-2 uppercase tracking-wider">
+                Nova Senha
               </label>
               <div className="relative">
                 <input
@@ -94,8 +58,8 @@ export default function LoginPage() {
                   name="password"
                   type={showPassword ? "text" : "password"}
                   required
-                  autoComplete="current-password"
-                  placeholder="Sua senha"
+                  minLength={6}
+                  placeholder="Mínimo de 6 caracteres"
                   className="w-full px-5 py-4 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 focus:border-gold focus:ring-1 focus:ring-gold/50 transition-all text-sm outline-none pr-12"
                 />
                 <button
@@ -103,20 +67,8 @@ export default function LoginPage() {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors"
                 >
-                  {showPassword ? (
-                    <EyeOff className="w-5 h-5" />
-                  ) : (
-                    <Eye className="w-5 h-5" />
-                  )}
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
-              </div>
-              <div className="flex justify-end mt-2">
-                <Link
-                  href="/esqueci-senha"
-                  className="text-[11px] font-medium text-white/50 hover:text-gold transition-colors"
-                >
-                  Esqueceu a senha?
-                </Link>
               </div>
             </div>
 
@@ -128,22 +80,11 @@ export default function LoginPage() {
               {pending ? (
                 <Loader2 className="w-5 h-5 animate-spin text-black" />
               ) : (
-                <>Entrar</>
+                <>Atualizar Senha</>
               )}
             </button>
           </form>
         </div>
-
-        {/* Footer */}
-        <p className="text-center text-[13px] text-white/50 mt-8">
-          Ainda não tem conta?{" "}
-          <Link
-            href="/cadastro"
-            className="text-gold font-bold hover:text-gold-light transition-colors ml-1"
-          >
-            Cadastre-se
-          </Link>
-        </p>
       </div>
     </main>
   );

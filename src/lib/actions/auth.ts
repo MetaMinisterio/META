@@ -144,3 +144,62 @@ export async function signOut() {
   await supabase.auth.signOut();
   redirect("/");
 }
+
+export async function resetPassword(
+  _prevState: AuthState,
+  formData: FormData
+): Promise<AuthState> {
+  try {
+    const supabase = await createClient();
+    const email = formData.get("email") as string;
+
+    if (!email) return { error: "Informe seu e-mail." };
+
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL 
+      ? process.env.NEXT_PUBLIC_SITE_URL 
+      : process.env.NEXT_PUBLIC_VERCEL_URL 
+        ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` 
+        : "http://localhost:3000";
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${siteUrl}/auth/callback?next=/nova-senha`,
+    });
+
+    if (error) {
+      console.error("Reset Password Error:", error);
+      return { error: "Erro ao solicitar recuperação. Tente novamente." };
+    }
+
+    return { success: "E-mail de recuperação enviado! Verifique sua caixa de entrada." };
+  } catch (err: any) {
+    console.error("Server Action Exception:", err);
+    return { error: `Erro interno: ${err.message}` };
+  }
+}
+
+export async function updatePassword(
+  _prevState: AuthState,
+  formData: FormData
+): Promise<AuthState> {
+  try {
+    const supabase = await createClient();
+    const password = formData.get("password") as string;
+
+    if (!password || password.length < 6) {
+      return { error: "A nova senha deve ter pelo menos 6 caracteres." };
+    }
+
+    const { error } = await supabase.auth.updateUser({ password });
+
+    if (error) {
+      console.error("Update Password Error:", error);
+      return { error: "Erro ao atualizar senha. Tente novamente ou peça um novo link." };
+    }
+
+  } catch (err: any) {
+    console.error("Server Action Exception:", err);
+    return { error: `Erro interno: ${err.message}` };
+  }
+
+  redirect("/dashboard");
+}

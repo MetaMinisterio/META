@@ -50,7 +50,7 @@ export default async function DashboardPage() {
             banners.map((banner) => (
               <div
                 key={banner.id}
-                className="relative shrink-0 w-[90vw] md:w-[70vw] lg:w-[60vw] max-w-4xl aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-950 snap-center group"
+                className="relative shrink-0 w-[90vw] md:w-[70vw] lg:w-[60vw] max-w-4xl aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden border border-border bg-card snap-center group"
               >
                 {banner.image_url ? (
                   <img
@@ -60,8 +60,8 @@ export default async function DashboardPage() {
                     loading="lazy"
                   />
                 ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-zinc-800 to-zinc-950 flex items-center justify-center relative overflow-hidden">
-                    <Megaphone className="w-64 h-64 text-zinc-800/20 absolute -right-10 -bottom-10 rotate-[-15deg]" strokeWidth={1} />
+                  <div className="w-full h-full bg-muted flex items-center justify-center relative overflow-hidden">
+                    <Megaphone className="w-64 h-64 text-muted-foreground/20 absolute -right-10 -bottom-10 rotate-[-15deg]" strokeWidth={1} />
                   </div>
                 )}
                 {/* Cinematic Overlay */}
@@ -84,10 +84,10 @@ export default async function DashboardPage() {
             ].map((placeholder, i) => (
               <div
                 key={i}
-                className="relative shrink-0 w-[90vw] md:w-[70vw] lg:w-[60vw] max-w-4xl aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-950 snap-center group"
+                className="relative shrink-0 w-[90vw] md:w-[70vw] lg:w-[60vw] max-w-4xl aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden border border-border bg-card snap-center group"
               >
-                <div className="w-full h-full bg-gradient-to-br from-zinc-800 to-zinc-950 flex items-center justify-center relative overflow-hidden">
-                  <placeholder.icon className="w-64 h-64 text-zinc-100/5 absolute -right-10 -bottom-10 rotate-[-15deg]" strokeWidth={1} />
+                <div className="w-full h-full bg-muted flex items-center justify-center relative overflow-hidden">
+                  <placeholder.icon className="w-64 h-64 text-muted-foreground/10 absolute -right-10 -bottom-10 rotate-[-15deg]" strokeWidth={1} />
                 </div>
                 {/* Cinematic Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none" />
@@ -123,12 +123,12 @@ export default async function DashboardPage() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="bento-card p-4 md:p-6 flex flex-col items-center justify-center gap-3 text-center group hover:bg-zinc-900/80"
+                  className="bento-card bg-card p-4 md:p-6 flex flex-col items-center justify-center gap-3 text-center group hover:bg-muted"
                 >
                   <div className={`w-12 h-12 rounded-full ${item.bg} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
                     <item.icon className={`w-6 h-6 ${item.color}`} strokeWidth={1.5} />
                   </div>
-                  <span className="text-sm font-semibold text-zinc-300 group-hover:text-white transition-colors">
+                  <span className="text-sm font-semibold text-foreground transition-colors">
                     {item.label}
                   </span>
                 </Link>
@@ -141,19 +141,19 @@ export default async function DashboardPage() {
             {announcements && announcements.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {announcements.slice(0, 4).map((ann) => (
-                  <div key={ann.id} className="bento-card p-5 group">
+                  <div key={ann.id} className="bento-card bg-card p-5 group">
                     <div className="flex items-start gap-3">
                       {ann.is_pinned ? (
                         <div className="mt-1 w-2 h-2 rounded-full bg-gold shrink-0 animate-pulse" />
                       ) : (
-                        <div className="mt-1 w-2 h-2 rounded-full bg-zinc-700 shrink-0" />
+                        <div className="mt-1 w-2 h-2 rounded-full bg-muted-foreground shrink-0" />
                       )}
                       <div>
                         <p className="font-semibold text-sm text-foreground mb-1 group-hover:text-gold transition-colors">{ann.title}</p>
-                        <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
+                        <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
                           {ann.content}
                         </p>
-                        <p className="text-[10px] text-zinc-500 mt-3 font-medium">
+                        <p className="text-[10px] text-muted-foreground mt-3 font-medium">
                           {formatDateTime(ann.published_at)}
                         </p>
                       </div>
@@ -186,8 +186,8 @@ export default async function DashboardPage() {
             {events && events.length > 0 ? (
               <div className="space-y-4">
                 {events.slice(0, 4).map((event) => (
-                  <div key={event.id} className="bento-card p-4 flex gap-4 group cursor-pointer hover:bg-zinc-900/80">
-                    <div className="shrink-0 w-14 h-14 rounded-xl bg-zinc-900 border border-zinc-800 flex flex-col items-center justify-center group-hover:border-gold/30 transition-colors">
+                  <div key={event.id} className="bento-card bg-card p-4 flex gap-4 group cursor-pointer hover:bg-muted">
+                    <div className="shrink-0 w-14 h-14 rounded-xl bg-muted border border-border flex flex-col items-center justify-center group-hover:border-gold/30 transition-colors">
                       <span className="text-[10px] font-medium text-gold uppercase tracking-wider">
                         {new Date(event.event_date).toLocaleDateString("pt-BR", { month: "short" })}
                       </span>
@@ -199,7 +199,7 @@ export default async function DashboardPage() {
                       <p className="font-semibold text-sm text-foreground group-hover:text-gold transition-colors">
                         {event.title}
                       </p>
-                      <p className="text-xs text-zinc-500 mt-1 flex items-center gap-1">
+                      <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
                         {formatDateTime(event.event_date).split(" ")[1]} 
                         {event.location && ` • ${event.location}`}
                       </p>

@@ -1,28 +1,26 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
 /* ============================================================
    META ChMS — Premium Design System (Linear/Vercel style)
    ============================================================ */
 
 @theme {
-  /* Core Colors */
-  --color-background: #000000;
-  --color-foreground: #fafafa;
-  
-  /* Cards & Surfaces */
-  --color-card: #09090B;
-  --color-card-foreground: #fafafa;
-  --color-muted: #27272a;
-  --color-muted-foreground: #a1a1aa; /* zinc-400 */
-  
-  /* Borders & Inputs */
-  --color-border: #27272a; /* zinc-800 */
-  --color-input: #27272a;
-  
   /* Accents (Gold/Amber) */
   --color-gold: #f59e0b; /* amber-500 */
   --color-gold-light: #fbbf24; /* amber-400 */
   --color-gold-dark: #d97706; /* amber-600 */
+  
+  /* Semantic variables mapped to class colors */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
   
   /* Radius */
   --radius-sm: 0.25rem;
@@ -30,6 +28,30 @@
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
   --radius-2xl: 1.5rem;
+}
+
+:root {
+  /* Light Mode Colors */
+  --background: #ffffff;
+  --foreground: #09090b;
+  --card: #ffffff;
+  --card-foreground: #09090b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+}
+
+.dark {
+  /* Dark Mode Colors (Vercel/Linear style) */
+  --background: #000000;
+  --foreground: #fafafa;
+  --card: #09090b;
+  --card-foreground: #fafafa;
+  --muted: #27272a;
+  --muted-foreground: #a1a1aa;
+  --border: #27272a;
+  --input: #27272a;
 }
 
 /* ============================================================

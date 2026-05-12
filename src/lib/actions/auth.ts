@@ -26,6 +26,12 @@ export async function signUpWithEmail(
     return { error: "A senha deve ter pelo menos 6 caracteres." };
   }
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL 
+    ? process.env.NEXT_PUBLIC_SITE_URL 
+    : process.env.NEXT_PUBLIC_VERCEL_URL 
+      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` 
+      : "http://localhost:3000";
+
   const { error } = await supabase.auth.signUp({
     email,
     password,
@@ -33,15 +39,16 @@ export async function signUpWithEmail(
       data: {
         full_name: fullName,
       },
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+      emailRedirectTo: `${siteUrl}/auth/callback`,
     },
   });
 
   if (error) {
+    console.error("Supabase Auth Error:", error);
     if (error.message.includes("already registered")) {
       return { error: "Este email já está cadastrado." };
     }
-    return { error: "Erro ao criar conta. Tente novamente." };
+    return { error: "Erro ao criar conta. Verifique os dados ou tente novamente." };
   }
 
   return {
@@ -87,14 +94,21 @@ export async function signInWithMagicLink(
     return { error: "Informe seu email." };
   }
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL 
+    ? process.env.NEXT_PUBLIC_SITE_URL 
+    : process.env.NEXT_PUBLIC_VERCEL_URL 
+      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` 
+      : "http://localhost:3000";
+
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+      emailRedirectTo: `${siteUrl}/auth/callback`,
     },
   });
 
   if (error) {
+    console.error("Magic Link Error:", error);
     return { error: "Erro ao enviar link. Tente novamente." };
   }
 

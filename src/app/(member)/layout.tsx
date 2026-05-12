@@ -2,7 +2,8 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import BottomNav from "@/components/member/bottom-nav";
 import Link from "next/link";
-import { Home, HandHeart, Heart, Calendar, User, LogOut } from "lucide-react";
+import { Home, HandHeart, Heart, Calendar, User, LogOut, Settings } from "lucide-react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const navItems = [
   { href: "/dashboard", label: "Início", icon: Home },
@@ -26,6 +27,14 @@ export default async function MemberLayout({
     redirect("/login");
   }
 
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  const isAdmin = profile && ["admin", "pastor"].includes(profile.role);
+
   return (
     <div className="min-h-dvh bg-background flex flex-col md:flex-row">
       {/* Mobile Header (md:hidden) */}
@@ -37,16 +46,27 @@ export default async function MemberLayout({
             </div>
             <span className="text-sm font-bold tracking-tight">META</span>
           </div>
+          <div className="flex items-center gap-3">
+            {isAdmin && (
+              <Link href="/admin" className="text-xs font-semibold text-gold bg-gold/10 px-3 py-1.5 rounded-full border border-gold/20">
+                Admin
+              </Link>
+            )}
+            <ThemeToggle />
+          </div>
         </div>
       </header>
 
       {/* Desktop Sidebar (hidden on mobile) */}
       <aside className="hidden md:flex flex-col w-64 border-r border-zinc-800 bg-zinc-950/50 backdrop-blur-xl h-dvh sticky top-0">
-        <div className="p-6 flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl gold-gradient flex items-center justify-center shadow-lg shadow-gold/20">
-            <span className="text-black font-extrabold text-sm">M</span>
+        <div className="p-6 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl gold-gradient flex items-center justify-center shadow-lg shadow-gold/20">
+              <span className="text-black font-extrabold text-sm">M</span>
+            </div>
+            <span className="font-bold tracking-tight text-lg">META</span>
           </div>
-          <span className="font-bold tracking-tight text-lg">META</span>
+          <ThemeToggle />
         </div>
         
         <div className="flex-1 px-4 py-6 space-y-2">
@@ -62,7 +82,16 @@ export default async function MemberLayout({
           ))}
         </div>
 
-        <div className="p-4 border-t border-zinc-800/50">
+        <div className="p-4 border-t border-zinc-800/50 space-y-2">
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className="flex items-center gap-3 w-full px-4 py-3 rounded-lg text-sm font-bold text-gold hover:text-gold-light hover:bg-gold/10 border border-gold/20 transition-all"
+            >
+              <Settings className="w-5 h-5" strokeWidth={1.5} />
+              Painel Administrativo
+            </Link>
+          )}
           <form action="/auth/signout" method="post">
             <button
               type="submit"

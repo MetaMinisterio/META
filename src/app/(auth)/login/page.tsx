@@ -2,7 +2,8 @@
 
 import { useActionState, useState } from "react";
 import Link from "next/link";
-import { signInWithEmail, signInWithGoogle, type AuthState } from "@/lib/actions/auth";
+import { signInWithEmail, type AuthState } from "@/lib/actions/auth";
+import { createClient } from "@/lib/supabase/client";
 import { ArrowLeft, Eye, EyeOff, Loader2, AlertCircle, ChevronDown } from "lucide-react";
 
 function GoogleIcon() {
@@ -19,26 +20,41 @@ function GoogleIcon() {
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showEmailForm, setShowEmailForm] = useState(false);
+  const [googlePending, setGooglePending] = useState(false);
+  const [googleError, setGoogleError] = useState<string | null>(null);
 
-  const [googleState, googleAction, googlePending] = useActionState<AuthState, FormData>(
-    signInWithGoogle,
-    {}
-  );
   const [state, action, pending] = useActionState<AuthState, FormData>(
     signInWithEmail,
     {}
   );
 
+  async function handleGoogleLogin() {
+    setGooglePending(true);
+    setGoogleError(null);
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          // window.location.origin garante a URL correta em qualquer ambiente
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+      if (error) setGoogleError("Erro ao iniciar login com Google. Tente novamente.");
+    } catch {
+      setGoogleError("Erro inesperado. Tente novamente.");
+    } finally {
+      setGooglePending(false);
+    }
+  }
+
   return (
     <main className="min-h-dvh flex flex-col items-center justify-center px-4 py-12 bg-background relative overflow-hidden">
 
-      {/* Decorative background — works in both light and dark */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_40%_at_50%_0%,rgba(245,158,11,0.06),transparent)] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-border" />
 
       <div className="relative z-10 w-full max-w-[400px]">
 
-        {/* Back link */}
         <Link
           href="/"
           className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors mb-12 group"
@@ -47,7 +63,6 @@ export default function LoginPage() {
           Voltar
         </Link>
 
-        {/* Logo + título */}
         <div className="text-center mb-10">
           <div className="inline-flex w-12 h-12 rounded-2xl items-center justify-center mb-5 bg-gradient-to-br from-amber-400 to-amber-600 shadow-[0_0_20px_rgba(245,158,11,0.25)]">
             <span className="text-black font-black text-lg tracking-tighter select-none">M</span>
@@ -60,32 +75,30 @@ export default function LoginPage() {
           </p>
         </div>
 
-        {/* Card */}
         <div className="rounded-2xl border border-border bg-card shadow-sm p-6">
 
           {/* Google — ação primária */}
-          <form action={googleAction}>
-            {googleState?.error && (
-              <div className="flex items-start gap-2 mb-3 p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-xs">
-                <AlertCircle className="w-3.5 h-3.5 mt-0.5 shrink-0" />
-                {googleState.error}
-              </div>
+          {googleError && (
+            <div className="flex items-start gap-2 mb-3 p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-xs">
+              <AlertCircle className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+              {googleError}
+            </div>
+          )}
+          <button
+            type="button"
+            onClick={handleGoogleLogin}
+            disabled={googlePending}
+            className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-white hover:bg-zinc-50 active:bg-zinc-100 text-zinc-900 text-sm font-semibold border border-zinc-200 transition-all shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {googlePending ? (
+              <Loader2 className="w-4 h-4 animate-spin text-zinc-400" />
+            ) : (
+              <>
+                <GoogleIcon />
+                Continuar com Google
+              </>
             )}
-            <button
-              type="submit"
-              disabled={googlePending}
-              className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-white hover:bg-zinc-50 active:bg-zinc-100 text-zinc-900 text-sm font-semibold border border-zinc-200 transition-all shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-              {googlePending ? (
-                <Loader2 className="w-4 h-4 animate-spin text-zinc-400" />
-              ) : (
-                <>
-                  <GoogleIcon />
-                  Continuar com Google
-                </>
-              )}
-            </button>
-          </form>
+          </button>
 
           {/* Divisor */}
           <div className="flex items-center gap-3 my-5">

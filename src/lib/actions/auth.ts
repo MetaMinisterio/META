@@ -139,29 +139,6 @@ export async function signInWithMagicLink(
   }
 }
 
-export async function signInWithGoogle(): Promise<AuthState> {
-  const supabase = await createClient();
-
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
-    ? process.env.NEXT_PUBLIC_SITE_URL
-    : process.env.NEXT_PUBLIC_VERCEL_URL
-      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-      : "http://localhost:3000";
-
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: {
-      redirectTo: `${siteUrl}/auth/callback`,
-    },
-  });
-
-  if (error || !data.url) {
-    return { error: "Erro ao iniciar login com Google. Tente novamente." };
-  }
-
-  redirect(data.url);
-}
-
 export async function signOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();

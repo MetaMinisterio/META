@@ -14,11 +14,8 @@ export default function Home() {
             <span className="font-semibold text-sm tracking-tight">META</span>
           </div>
           <div className="flex items-center gap-4">
-            <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <Link href="/login" className="btn-primary px-4 py-2 text-sm rounded-md shadow-none hover:shadow-none bg-foreground text-background hover:bg-zinc-200">
               Entrar
-            </Link>
-            <Link href="/cadastro" className="btn-primary px-4 py-2 text-sm rounded-md shadow-none hover:shadow-none bg-foreground text-background hover:bg-zinc-200">
-              Criar Conta
             </Link>
           </div>
         </div>
@@ -50,8 +47,8 @@ export default function Home() {
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/cadastro" className="btn-primary w-full sm:w-auto px-8 py-4 text-base rounded-full group">
-              Começar Agora
+            <Link href="/login" className="btn-primary w-full sm:w-auto px-8 py-4 text-base rounded-full group">
+              Acessar Plataforma
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" strokeWidth={2} />
             </Link>
             <Link href="#features" className="btn-ghost w-full sm:w-auto px-8 py-4 text-base rounded-full border border-zinc-800 hover:border-zinc-700">

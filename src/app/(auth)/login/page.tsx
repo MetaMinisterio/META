@@ -30,43 +30,43 @@ export default function LoginPage() {
   );
 
   return (
-    <main className="min-h-dvh flex flex-col items-center justify-center px-4 py-12 bg-black relative overflow-hidden">
+    <main className="min-h-dvh flex flex-col items-center justify-center px-4 py-12 bg-background relative overflow-hidden">
 
-      {/* Subtle background texture */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(245,158,11,0.07),transparent)]" />
-      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1438283173091-5dbf5c5a3206?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center opacity-[0.04]" />
+      {/* Decorative background — works in both light and dark */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_40%_at_50%_0%,rgba(245,158,11,0.06),transparent)] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-border" />
 
-      <div className="relative z-10 w-full max-w-[400px] animate-fade-in-up">
+      <div className="relative z-10 w-full max-w-[400px]">
 
         {/* Back link */}
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 text-xs text-zinc-500 hover:text-zinc-300 transition-colors mb-12 group"
+          className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors mb-12 group"
         >
           <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
           Voltar
         </Link>
 
-        {/* Logo + title */}
+        {/* Logo + título */}
         <div className="text-center mb-10">
-          <div className="inline-flex w-12 h-12 rounded-2xl items-center justify-center mb-5 bg-gradient-to-br from-amber-400 to-amber-600 shadow-[0_0_24px_rgba(245,158,11,0.3)]">
-            <span className="text-black font-black text-lg tracking-tighter">M</span>
+          <div className="inline-flex w-12 h-12 rounded-2xl items-center justify-center mb-5 bg-gradient-to-br from-amber-400 to-amber-600 shadow-[0_0_20px_rgba(245,158,11,0.25)]">
+            <span className="text-black font-black text-lg tracking-tighter select-none">M</span>
           </div>
-          <h1 className="text-[26px] font-bold text-white tracking-tight mb-1.5">
+          <h1 className="text-2xl font-bold text-foreground tracking-tight mb-1.5">
             Entrar na Igreja META
           </h1>
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-muted-foreground">
             Bem-vindo de volta
           </p>
         </div>
 
         {/* Card */}
-        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.025] backdrop-blur-xl p-6 shadow-[0_0_0_1px_rgba(255,255,255,0.02),0_32px_64px_rgba(0,0,0,0.5)]">
+        <div className="rounded-2xl border border-border bg-card shadow-sm p-6">
 
-          {/* Google button — primary CTA */}
+          {/* Google — ação primária */}
           <form action={googleAction}>
             {googleState?.error && (
-              <div className="flex items-start gap-2 mb-3 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-xs">
+              <div className="flex items-start gap-2 mb-3 p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-xs">
                 <AlertCircle className="w-3.5 h-3.5 mt-0.5 shrink-0" />
                 {googleState.error}
               </div>
@@ -74,10 +74,10 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={googlePending}
-              className="group w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-white hover:bg-zinc-50 active:bg-zinc-100 text-zinc-900 text-sm font-semibold transition-all duration-150 shadow-[0_1px_3px_rgba(0,0,0,0.3),0_0_0_1px_rgba(255,255,255,0.08)] hover:shadow-[0_2px_8px_rgba(0,0,0,0.4)] disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-white hover:bg-zinc-50 active:bg-zinc-100 text-zinc-900 text-sm font-semibold border border-zinc-200 transition-all shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {googlePending ? (
-                <Loader2 className="w-4 h-4 animate-spin text-zinc-500" />
+                <Loader2 className="w-4 h-4 animate-spin text-zinc-400" />
               ) : (
                 <>
                   <GoogleIcon />
@@ -87,19 +87,19 @@ export default function LoginPage() {
             </button>
           </form>
 
-          {/* Divider */}
+          {/* Divisor */}
           <div className="flex items-center gap-3 my-5">
-            <div className="flex-1 h-px bg-white/[0.06]" />
-            <span className="text-[11px] text-zinc-600 uppercase tracking-[0.1em]">ou</span>
-            <div className="flex-1 h-px bg-white/[0.06]" />
+            <div className="flex-1 h-px bg-border" />
+            <span className="text-[11px] text-muted-foreground uppercase tracking-[0.1em]">ou</span>
+            <div className="flex-1 h-px bg-border" />
           </div>
 
-          {/* Email/password — collapsed by default */}
+          {/* E-mail/senha — colapsado por padrão */}
           {!showEmailForm ? (
             <button
               type="button"
               onClick={() => setShowEmailForm(true)}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm text-zinc-500 hover:text-zinc-300 hover:bg-white/[0.03] transition-all border border-white/[0.05] hover:border-white/[0.1]"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm text-muted-foreground hover:text-foreground border border-border hover:border-foreground/20 hover:bg-muted/50 transition-all"
             >
               Entrar com e-mail e senha
               <ChevronDown className="w-3.5 h-3.5" />
@@ -107,7 +107,7 @@ export default function LoginPage() {
           ) : (
             <div className="animate-fade-in-up">
               {state?.error && (
-                <div className="flex items-start gap-2 mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-xs">
+                <div className="flex items-start gap-2 mb-4 p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-xs">
                   <AlertCircle className="w-3.5 h-3.5 mt-0.5 shrink-0" />
                   {state.error}
                 </div>
@@ -115,7 +115,7 @@ export default function LoginPage() {
 
               <form action={action} className="space-y-3">
                 <div>
-                  <label htmlFor="email" className="block text-[11px] font-medium text-zinc-500 uppercase tracking-wider mb-1.5">
+                  <label htmlFor="email" className="block text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-1.5">
                     E-mail
                   </label>
                   <input
@@ -126,16 +126,16 @@ export default function LoginPage() {
                     autoComplete="email"
                     autoFocus
                     placeholder="seu@email.com"
-                    className="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/[0.08] text-white placeholder:text-zinc-600 focus:border-amber-500/50 focus:ring-2 focus:ring-amber-500/10 transition-all text-sm outline-none"
+                    className="w-full px-4 py-3 rounded-xl bg-background border border-border text-foreground placeholder:text-muted-foreground/50 focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/10 transition-all text-sm outline-none"
                   />
                 </div>
 
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <label htmlFor="password" className="block text-[11px] font-medium text-zinc-500 uppercase tracking-wider">
+                    <label htmlFor="password" className="block text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
                       Senha
                     </label>
-                    <Link href="/esqueci-senha" className="text-[11px] text-zinc-600 hover:text-amber-500 transition-colors">
+                    <Link href="/esqueci-senha" className="text-[11px] text-muted-foreground hover:text-amber-500 transition-colors">
                       Esqueceu?
                     </Link>
                   </div>
@@ -147,12 +147,12 @@ export default function LoginPage() {
                       required
                       autoComplete="current-password"
                       placeholder="••••••••"
-                      className="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/[0.08] text-white placeholder:text-zinc-600 focus:border-amber-500/50 focus:ring-2 focus:ring-amber-500/10 transition-all text-sm outline-none pr-11"
+                      className="w-full px-4 py-3 rounded-xl bg-background border border-border text-foreground placeholder:text-muted-foreground/50 focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/10 transition-all text-sm outline-none pr-11"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-zinc-400 transition-colors"
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                       tabIndex={-1}
                     >
                       {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -163,7 +163,7 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={pending}
-                  className="w-full py-3 mt-1 rounded-xl bg-gradient-to-r from-amber-400 to-amber-600 text-black text-sm font-bold flex items-center justify-center gap-2 hover:opacity-90 active:opacity-80 transition-all shadow-[0_4px_14px_rgba(245,158,11,0.25)] disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-3 mt-1 rounded-xl bg-gradient-to-r from-amber-400 to-amber-600 text-black text-sm font-bold flex items-center justify-center gap-2 hover:opacity-90 active:opacity-80 transition-all shadow-[0_2px_12px_rgba(245,158,11,0.2)] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {pending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Entrar"}
                 </button>
@@ -172,9 +172,8 @@ export default function LoginPage() {
           )}
         </div>
 
-        {/* Footer note */}
-        <p className="text-center text-xs text-zinc-700 mt-6">
-          Ao entrar, você concorda com os termos de uso da Igreja META
+        <p className="text-center text-xs text-muted-foreground mt-6">
+          Acesso exclusivo para membros da Igreja META
         </p>
       </div>
     </main>

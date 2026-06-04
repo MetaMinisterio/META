@@ -39,13 +39,13 @@ export default async function MemberLayout({
   return (
     <div className="min-h-dvh bg-background flex flex-col md:flex-row">
       {/* Mobile Header (md:hidden) */}
-      <header className="sticky top-0 z-40 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800 md:hidden">
+      <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border md:hidden">
         <div className="px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg gold-gradient flex items-center justify-center">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center">
               <span className="text-black font-extrabold text-[10px]">M</span>
             </div>
-            <span className="text-sm font-bold tracking-tight">META</span>
+            <span className="text-sm font-bold tracking-tight text-foreground">META</span>
           </div>
           <div className="flex items-center gap-3">
             {isAdmin && (
@@ -59,23 +59,23 @@ export default async function MemberLayout({
       </header>
 
       {/* Desktop Sidebar (hidden on mobile) */}
-      <aside className="hidden md:flex flex-col w-64 border-r border-zinc-800 bg-zinc-950/50 backdrop-blur-xl h-dvh sticky top-0">
+      <aside className="hidden md:flex flex-col w-64 border-r border-border bg-card/50 backdrop-blur-xl h-dvh sticky top-0">
         <div className="p-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl gold-gradient flex items-center justify-center shadow-lg shadow-gold/20">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-lg shadow-gold/20">
               <span className="text-black font-extrabold text-sm">M</span>
             </div>
-            <span className="font-bold tracking-tight text-lg">META</span>
+            <span className="font-bold tracking-tight text-lg text-foreground">META</span>
           </div>
           <ThemeToggle />
         </div>
-        
-        <div className="flex-1 px-4 py-6 space-y-2">
+
+        <div className="flex-1 px-4 py-6 space-y-1">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-zinc-400 hover:text-white hover:bg-zinc-900 transition-all group"
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-all group"
             >
               <item.icon className="w-5 h-5 group-hover:text-gold transition-colors" strokeWidth={1.5} />
               {item.label}
@@ -83,7 +83,7 @@ export default async function MemberLayout({
           ))}
         </div>
 
-        <div className="p-4 border-t border-zinc-800/50 space-y-2">
+        <div className="p-4 border-t border-border space-y-2">
           {isAdmin && (
             <Link
               href="/admin"
@@ -96,7 +96,7 @@ export default async function MemberLayout({
           <form action={signOut}>
             <button
               type="submit"
-              className="flex items-center gap-3 w-full px-4 py-3 rounded-lg text-sm font-medium text-zinc-400 hover:text-destructive hover:bg-destructive/10 transition-all"
+              className="flex items-center gap-3 w-full px-4 py-3 rounded-lg text-sm font-medium text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all"
             >
               <LogOut className="w-5 h-5" strokeWidth={1.5} />
               Sair da conta

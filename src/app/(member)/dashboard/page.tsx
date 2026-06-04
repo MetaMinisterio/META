@@ -18,6 +18,8 @@ export const metadata: Metadata = {
 export default async function DashboardPage() {
   const supabase = await createClient();
 
+  const { data: { user } } = await supabase.auth.getUser();
+
   // Fetch data in parallel for performance
   const [
     { data: profile },
@@ -25,13 +27,19 @@ export default async function DashboardPage() {
     { data: events },
     { data: announcements },
   ] = await Promise.all([
-    supabase.from("profiles").select("full_name, avatar_url").single(),
+    supabase.from("profiles").select("full_name, avatar_url").eq("id", user!.id).single(),
     supabase.from("banners").select("*").eq("is_active", true).order("display_order", { ascending: true }).limit(5),
     supabase.from("events").select("*").eq("is_published", true).gte("event_date", new Date().toISOString()).order("event_date", { ascending: true }).limit(5),
     supabase.from("announcements").select("*").eq("is_published", true).order("is_pinned", { ascending: false }).order("published_at", { ascending: false }).limit(5),
   ]);
 
-  const firstName = profile?.full_name?.split(" ")[0] || "Membro";
+  // Fallback chain: profile > Google metadata (name) > generic
+  const displayName =
+    profile?.full_name ||
+    user?.user_metadata?.full_name ||
+    user?.user_metadata?.name ||
+    "Membro";
+  const firstName = displayName.split(" ")[0];
 
   return (
     <div className="space-y-12 animate-fade-in-up">

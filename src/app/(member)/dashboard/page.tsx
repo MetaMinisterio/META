@@ -1,5 +1,4 @@
 import { createClient } from "@/lib/supabase/server";
-import { formatDateTime } from "@/lib/utils";
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
@@ -10,6 +9,8 @@ import {
   Megaphone,
   Users,
 } from "lucide-react";
+import AnnouncementsGrid from "@/components/member/AnnouncementsGrid";
+import EventsList from "@/components/member/EventsList";
 
 export const metadata: Metadata = {
   title: "Início",
@@ -146,35 +147,7 @@ export default async function DashboardPage() {
 
           <section>
             <h2 className="text-xl font-bold tracking-tight mb-4">Mural de Avisos</h2>
-            {announcements && announcements.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {announcements.slice(0, 4).map((ann) => (
-                  <div key={ann.id} className="bento-card bg-card p-5 group">
-                    <div className="flex items-start gap-3">
-                      {ann.is_pinned ? (
-                        <div className="mt-1 w-2 h-2 rounded-full bg-gold shrink-0 animate-pulse" />
-                      ) : (
-                        <div className="mt-1 w-2 h-2 rounded-full bg-muted-foreground shrink-0" />
-                      )}
-                      <div>
-                        <p className="font-semibold text-sm text-foreground mb-1 group-hover:text-gold transition-colors">{ann.title}</p>
-                        <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
-                          {ann.content}
-                        </p>
-                        <p className="text-[10px] text-muted-foreground mt-3 font-medium">
-                          {formatDateTime(ann.published_at)}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="bento-card p-8 flex flex-col items-center justify-center text-center">
-                <Megaphone className="w-8 h-8 text-zinc-700 mb-3" strokeWidth={1.5} />
-                <p className="text-zinc-400 text-sm">Nenhum aviso no momento.</p>
-              </div>
-            )}
+            <AnnouncementsGrid announcements={announcements ?? []} />
           </section>
         </div>
 
@@ -191,36 +164,7 @@ export default async function DashboardPage() {
               </Link>
             </div>
 
-            {events && events.length > 0 ? (
-              <div className="space-y-4">
-                {events.slice(0, 4).map((event) => (
-                  <div key={event.id} className="bento-card bg-card p-4 flex gap-4 group cursor-pointer hover:bg-muted">
-                    <div className="shrink-0 w-14 h-14 rounded-xl bg-muted border border-border flex flex-col items-center justify-center group-hover:border-gold/30 transition-colors">
-                      <span className="text-[10px] font-medium text-gold uppercase tracking-wider">
-                        {new Date(event.event_date).toLocaleDateString("pt-BR", { month: "short" })}
-                      </span>
-                      <span className="text-lg font-bold text-foreground leading-none mt-0.5">
-                        {new Date(event.event_date).getDate()}
-                      </span>
-                    </div>
-                    <div className="flex flex-col justify-center">
-                      <p className="font-semibold text-sm text-foreground group-hover:text-gold transition-colors">
-                        {event.title}
-                      </p>
-                      <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
-                        {formatDateTime(event.event_date).split(" ")[1]} 
-                        {event.location && ` • ${event.location}`}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="bento-card p-8 flex flex-col items-center justify-center text-center">
-                <Calendar className="w-8 h-8 text-zinc-700 mb-3" strokeWidth={1.5} />
-                <p className="text-zinc-400 text-sm">Nenhum evento programado.</p>
-              </div>
-            )}
+            <EventsList events={events ?? []} />
           </section>
         </div>
       </div>

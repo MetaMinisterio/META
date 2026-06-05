@@ -14,7 +14,7 @@ import {
 import { formatCurrency, formatDateTime } from "@/lib/utils";
 import type { Tithe } from "@/lib/types/database";
 
-const PIX_KEY = process.env.NEXT_PUBLIC_PIX_KEY || "pix@igrejameta.com";
+const PIX_KEY = process.env.NEXT_PUBLIC_PIX_KEY || "59117881000178";
 
 type FormState = { error?: string; success?: string };
 
@@ -160,7 +160,7 @@ export default function ContribuirPage() {
               <QrCode className="w-8 h-8 text-gold" />
             </div>
             <p className="text-sm text-muted-foreground mb-1">
-              Chave PIX (Email)
+              Chave PIX (Banco Itaú)
             </p>
             <p className="text-lg font-bold text-foreground mb-4 break-all">
               {PIX_KEY}

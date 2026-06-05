@@ -35,6 +35,17 @@ async function submitTithe(_prev: FormState, formData: FormData): Promise<FormSt
   if (!amount || amount <= 0) return { error: "Informe um valor válido." };
   if (!type) return { error: "Selecione o tipo de contribuição." };
 
+  // Garante que o perfil existe — necessário para usuários que entraram via Google
+  // e cujo trigger de auto-criação pode não ter executado
+  await supabase.from("profiles").upsert(
+    {
+      id: user.id,
+      full_name: user.user_metadata?.full_name || user.user_metadata?.name || "",
+      avatar_url: user.user_metadata?.avatar_url || null,
+    },
+    { onConflict: "id", ignoreDuplicates: true }
+  );
+
   let receiptUrl: string | null = null;
 
   if (receipt && receipt.size > 0) {

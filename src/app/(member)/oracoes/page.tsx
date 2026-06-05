@@ -26,6 +26,16 @@ async function submitPrayer(
 
   if (!title) return { error: "Informe o título do pedido." };
 
+  // Garante perfil para usuários OAuth sem trigger executado
+  await supabase.from("profiles").upsert(
+    {
+      id: user.id,
+      full_name: user.user_metadata?.full_name || user.user_metadata?.name || "",
+      avatar_url: user.user_metadata?.avatar_url || null,
+    },
+    { onConflict: "id", ignoreDuplicates: true }
+  );
+
   const { error } = await supabase.from("prayer_requests").insert({
     user_id: user.id,
     title,

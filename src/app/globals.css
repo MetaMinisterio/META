@@ -3,60 +3,91 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ============================================================
-   META ChMS — Premium Design System (Linear/Vercel style)
+   META ChMS — Premium Design System
+   Referências: Stripe · Vercel/Geist · Tailwind UI · Radix UI
    ============================================================ */
 
 @theme {
-  /* Accents (Gold/Amber) */
-  --color-gold: #f59e0b; /* amber-500 */
+  /* ─── Accent (Gold/Amber) ─────────────────────────────── */
+  --color-gold:       #f59e0b; /* amber-500 */
   --color-gold-light: #fbbf24; /* amber-400 */
-  --color-gold-dark: #d97706; /* amber-600 */
-  
-  /* Semantic variables mapped to class colors */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
+  --color-gold-dark:  #d97706; /* amber-600 */
+
+  /* ─── Semantic tokens (resolvem para as variáveis abaixo) ─ */
+  --color-background:      var(--background);
+  --color-foreground:      var(--foreground);
+  --color-card:            var(--card);
   --color-card-foreground: var(--card-foreground);
-  --color-muted: var(--muted);
+  --color-muted:           var(--muted);
   --color-muted-foreground: var(--muted-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  
-  /* Radius */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
+  --color-border:          var(--border);
+  --color-input:           var(--input);
+  --color-sidebar:         var(--sidebar);
+  --color-sidebar-border:  var(--sidebar-border);
+
+  /* ─── Radius ──────────────────────────────────────────── */
+  --radius-sm:  0.25rem;
+  --radius-md:  0.5rem;
+  --radius-lg:  0.75rem;
+  --radius-xl:  1rem;
   --radius-2xl: 1.5rem;
+
+  /* ─── Elevation / Shadows ─────────────────────────────── */
+  --shadow-xs:      0 1px 2px rgba(0,0,0,0.05);
+  --shadow-sm:      0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-card:    0 2px 8px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-sidebar: 4px 0 24px rgba(0,0,0,0.06);
+  --shadow-modal:   0 16px 48px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.08);
 }
 
+/* ──────────────────────────────────────────────────────────
+   LIGHT MODE — Design System (Stripe / Vercel spec)
+   ────────────────────────────────────────────────────────── */
 :root {
-  /* Light Mode Colors */
-  --background: #f4f4f5;
-  --foreground: #09090b;
-  --card: #ffffff;
-  --card-foreground: #09090b;
-  --muted: #e4e4e7;
-  --muted-foreground: #52525b;
-  --border: #d4d4d8;
-  --input: #ffffff;
+  /* Backgrounds
+     Regra: nunca branco puro no app. Branco só nos cards. */
+  --background: #F8FAFC;   /* slate-50  — canvas da aplicação  */
+  --card:       #FFFFFF;   /* pure white — superfícies elevadas */
+  --sidebar:    #FFFFFF;   /* sidebar branca no light          */
+  --sidebar-border: #E2E8F0;
+
+  /* Text
+     Regra: nunca preto puro. Usa slate para menos fadiga visual. */
+  --foreground:        #0F172A; /* slate-900 — títulos pesados       */
+  --card-foreground:   #0F172A;
+  --muted-foreground:  #64748B; /* slate-500 — texto secundário/apoio */
+
+  /* Surfaces
+     Muted = superfície levemente cinzenta para áreas de background secundário */
+  --muted: #F1F5F9; /* slate-100 */
+
+  /* Borders
+     Regra: quase imperceptíveis — só para separar áreas logicamente */
+  --border: #E2E8F0; /* slate-200 — ultra-light */
+  --input:  #FFFFFF; /* inputs brancos com border visível */
 }
 
+/* ──────────────────────────────────────────────────────────
+   DARK MODE — Vercel / Linear style
+   ────────────────────────────────────────────────────────── */
 .dark {
-  /* Dark Mode Colors (Vercel/Linear style) */
-  --background: #000000;
-  --foreground: #fafafa;
-  --card: #09090b;
-  --card-foreground: #fafafa;
-  --muted: #27272a;
-  --muted-foreground: #a1a1aa;
-  --border: #27272a;
-  --input: #27272a;
+  --background: #09090B;   /* zinc-950 */
+  --card:       #111113;   /* ligeiramente mais claro que o bg */
+  --sidebar:    #0C0C0E;
+  --sidebar-border: #27272A;
+
+  --foreground:        #FAFAFA;
+  --card-foreground:   #FAFAFA;
+  --muted-foreground:  #A1A1AA; /* zinc-400 */
+
+  --muted:  #27272A; /* zinc-800 */
+  --border: #27272A; /* zinc-800 */
+  --input:  #1F1F23;
 }
 
-/* ============================================================
-   Base Resets & Globals
-   ============================================================ */
+/* ──────────────────────────────────────────────────────────
+   Base Resets
+   ────────────────────────────────────────────────────────── */
 
 * {
   box-sizing: border-box;
@@ -77,109 +108,105 @@ body {
   overflow-x: hidden;
 }
 
-/* ============================================================
-   Typography Polish
-   ============================================================ */
-
 h1, h2, h3, h4, h5, h6 {
-  letter-spacing: -0.02em; /* tracking-tight */
+  letter-spacing: -0.02em;
 }
 
-/* ============================================================
-   Custom Scrollbar
-   ============================================================ */
+/* ──────────────────────────────────────────────────────────
+   Scrollbar
+   ────────────────────────────────────────────────────────── */
 
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-muted-foreground);
+  background: var(--color-border);
   border-radius: 999px;
-  opacity: 0.4;
 }
+::-webkit-scrollbar-thumb:hover { background: var(--color-gold); }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-gold);
-}
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
 
-/* Hide scrollbar but allow scroll */
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-/* ============================================================
-   Animations & Effects
-   ============================================================ */
+/* ──────────────────────────────────────────────────────────
+   Animations
+   ────────────────────────────────────────────────────────── */
 
 @keyframes fade-in-up {
-  from { 
-    opacity: 0; 
-    transform: translateY(20px); 
-  }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
-  }
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-in-up {
-  animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Stagger delays */
 .delay-100 { animation-delay: 100ms; }
 .delay-200 { animation-delay: 200ms; }
 .delay-300 { animation-delay: 300ms; }
 .delay-400 { animation-delay: 400ms; }
 
-/* ============================================================
-   Components & Utilities
-   ============================================================ */
+/* ──────────────────────────────────────────────────────────
+   Elevation utilities
+   Regra: sombras amplas, difusas, opacidade mínima.
+   No dark mode, sombras são invisíveis (dark on dark), então
+   usamos apenas borders. No light mode, dão o "float" dos cards.
+   ────────────────────────────────────────────────────────── */
+
+/* Card com leve elevação — substitui border no light, mantém border no dark */
+.card-shadow {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+}
+.dark .card-shadow { box-shadow: none; }
+
+/* Sidebar shadow (só no light mode — no dark usa border) */
+.sidebar-shadow {
+  box-shadow: 4px 0 24px rgba(0,0,0,0.06);
+}
+.dark .sidebar-shadow { box-shadow: none; }
+
+/* Modal overlay */
+.modal-shadow {
+  box-shadow: 0 16px 48px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.08);
+}
+
+/* ──────────────────────────────────────────────────────────
+   Components
+   ────────────────────────────────────────────────────────── */
 
 .gold-gradient {
   background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold-dark));
 }
 
+/* Primary Button — WCAG AA+ em ambos os temas */
 .btn-primary {
   background: linear-gradient(to right, var(--color-gold-light), var(--color-gold-dark));
   color: #000000;
   font-weight: 600;
   border-radius: var(--radius-lg);
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   cursor: pointer;
   border: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  box-shadow: 0 4px 14px 0 rgba(245, 158, 11, 0.2);
+  box-shadow: 0 1px 3px rgba(245,158,11,0.3), 0 0 0 0 rgba(245,158,11,0);
 }
 
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);
+  box-shadow: 0 4px 16px rgba(245,158,11,0.35);
 }
 
-.btn-primary:active {
-  transform: translateY(0);
-}
+.btn-primary:active  { transform: translateY(0); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
+/* Ghost Button */
 .btn-ghost {
   color: var(--color-foreground);
   font-weight: 500;
   border-radius: var(--radius-lg);
-  transition: all 0.2s ease;
+  transition: background 0.15s ease;
   cursor: pointer;
   background: transparent;
   display: inline-flex;
@@ -188,35 +215,25 @@ h1, h2, h3, h4, h5, h6 {
   gap: 0.5rem;
 }
 
-.btn-ghost:hover {
-  background: var(--color-muted);
-}
+.btn-ghost:hover { background: var(--color-muted); }
 
-/* Bento Grid Card Base */
+/* Bento Card (member area grid) */
 .bento-card {
   background: var(--color-card);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-2xl);
-  transition: all 0.3s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
   overflow: hidden;
   position: relative;
 }
 
-.bento-card:hover {
-  border-color: rgba(245, 158, 11, 0.3);
-}
+.bento-card:hover { border-color: rgba(245,158,11,0.35); }
 
-.dark .bento-card {
-  background: rgba(24, 24, 27, 0.4);
-  border-color: rgba(255, 255, 255, 0.05);
-}
+/* Elevation hover no light mode */
+.bento-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+.dark .bento-card:hover { box-shadow: none; }
 
-.dark .bento-card:hover {
-  background: rgba(24, 24, 27, 0.6);
-}
-
+/* Text gradient — adapta ao tema */
 .text-gradient {
   background: linear-gradient(to right, var(--color-foreground), var(--color-muted-foreground));
   -webkit-background-clip: text;
@@ -224,21 +241,42 @@ h1, h2, h3, h4, h5, h6 {
   background-clip: text;
 }
 
-/* Glass effect for navbar */
+/* Glass nav (member mobile header) */
 .nav-glass {
-  background: color-mix(in srgb, var(--color-background) 80%, transparent);
-  backdrop-filter: blur(12px);
+  background: color-mix(in srgb, var(--color-background) 85%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--color-border);
 }
 
-/* Skeleton loading */
+/* Skeleton shimmer */
 .skeleton {
-  background: linear-gradient(90deg, var(--color-muted) 25%, color-mix(in srgb, var(--color-muted) 50%, var(--color-card)) 50%, var(--color-muted) 75%);
+  background: linear-gradient(
+    90deg,
+    var(--color-muted) 25%,
+    color-mix(in srgb, var(--color-muted) 60%, var(--color-card)) 50%,
+    var(--color-muted) 75%
+  );
   background-size: 200% 100%;
-  animation: skeleton-shimmer 1.5s infinite;
+  animation: skeleton-shimmer 1.4s ease infinite;
 }
 
 @keyframes skeleton-shimmer {
-  0% { background-position: 200% 0; }
+  0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
+}
+
+/* Input base — usado nos forms para garantir fundo correto */
+.input-base {
+  background: var(--color-input);
+  border: 1px solid var(--color-border);
+  color: var(--color-foreground);
+  border-radius: var(--radius-lg);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  outline: none;
+}
+
+.input-base:focus {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(245,158,11,0.12);
 }

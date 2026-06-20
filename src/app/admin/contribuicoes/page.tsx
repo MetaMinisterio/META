@@ -113,7 +113,7 @@ export default function AdminContribuicoesPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Buscar por nome ou tipo..."
-          className="w-full pl-10 pr-4 py-3 rounded-xl bg-card border border-border text-sm outline-none focus:border-gold transition-colors"
+          className="w-full pl-10 pr-4 py-3 rounded-xl bg-input border border-border text-sm text-foreground outline-none focus:border-gold focus:ring-2 focus:ring-gold/10 transition-all"
         />
       </div>
 

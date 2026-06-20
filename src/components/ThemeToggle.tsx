@@ -8,15 +8,12 @@ export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  // Avoid hydration mismatch by waiting for mount
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => { setMounted(true); }, []);
 
   if (!mounted) {
     return (
-      <div className="w-9 h-9 rounded-md border border-zinc-200 dark:border-zinc-800 bg-transparent flex items-center justify-center opacity-50">
-        <Sun className="w-4 h-4 text-zinc-400" />
+      <div className="w-8 h-8 rounded-lg border border-border bg-transparent flex items-center justify-center opacity-40 shrink-0">
+        <Sun className="w-4 h-4 text-muted-foreground" />
       </div>
     );
   }
@@ -24,7 +21,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="w-9 h-9 rounded-md border border-zinc-200 dark:border-zinc-800 bg-transparent flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:text-foreground dark:hover:text-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+      className="w-8 h-8 rounded-lg border border-border bg-transparent flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors shrink-0"
       aria-label="Alternar tema"
     >
       {theme === "dark" ? (

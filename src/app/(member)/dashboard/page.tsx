@@ -46,7 +46,7 @@ export default async function DashboardPage() {
     <div className="space-y-12 animate-fade-in-up">
       {/* Greeting */}
       <div>
-        <p className="text-zinc-400 text-sm font-medium tracking-wide uppercase mb-1">Visão Geral</p>
+        <p className="text-muted-foreground text-sm font-medium tracking-wide uppercase mb-1">Visão Geral</p>
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
           Olá, {firstName} <span className="text-gold">✦</span>
         </h1>

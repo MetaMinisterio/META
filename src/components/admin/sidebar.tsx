@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import {
   LayoutDashboard, Users, Image as ImageIcon, Megaphone, Calendar,
-  HandHeart, FolderOpen, Menu, X, ChevronLeft,
+  HandHeart, FolderOpen, Menu, X, ChevronLeft, Heart,
 } from "lucide-react";
 
 const links = [
@@ -15,6 +15,7 @@ const links = [
   { href: "/admin/avisos", label: "Avisos", icon: Megaphone },
   { href: "/admin/eventos", label: "Eventos", icon: Calendar },
   { href: "/admin/oracoes", label: "Orações", icon: HandHeart },
+  { href: "/admin/contribuicoes", label: "Contribuições", icon: Heart },
   { href: "/admin/arquivos", label: "Arquivos", icon: FolderOpen },
 ];
 

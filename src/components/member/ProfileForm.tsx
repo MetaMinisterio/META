@@ -92,17 +92,17 @@ export function ProfileForm({ profile }: { profile: Profile | null }) {
       )}
 
       <div>
-        <label className="block text-xs font-medium text-zinc-400 mb-1.5">Nome completo</label>
+        <label className="block text-xs font-medium text-muted-foreground mb-1.5">Nome completo</label>
         <input 
           {...register("full_name")}
-          className="w-full px-4 py-3 rounded-xl bg-zinc-950 border border-zinc-800 text-sm text-foreground focus:border-gold outline-none transition-colors" 
+          className="w-full px-4 py-3 rounded-xl bg-background border border-border text-sm text-foreground focus:border-gold outline-none transition-colors" 
         />
         {errors.full_name && <p className="text-red-500 text-xs mt-1">{errors.full_name.message}</p>}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs font-medium text-zinc-400 mb-1.5">CPF</label>
+          <label className="block text-xs font-medium text-muted-foreground mb-1.5">CPF</label>
           <input 
             {...register("cpf")}
             onChange={(e) => {
@@ -110,13 +110,13 @@ export function ProfileForm({ profile }: { profile: Profile | null }) {
               setValue("cpf", formatted, { shouldValidate: true });
             }}
             placeholder="000.000.000-00"
-            className="w-full px-4 py-3 rounded-xl bg-zinc-950 border border-zinc-800 text-sm text-foreground focus:border-gold outline-none transition-colors" 
+            className="w-full px-4 py-3 rounded-xl bg-background border border-border text-sm text-foreground focus:border-gold outline-none transition-colors" 
           />
           {errors.cpf && <p className="text-red-500 text-xs mt-1">{errors.cpf.message}</p>}
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-zinc-400 mb-1.5">Telefone/Celular</label>
+          <label className="block text-xs font-medium text-muted-foreground mb-1.5">Telefone/Celular</label>
           <input 
             {...register("phone")}
             onChange={(e) => {
@@ -124,14 +124,14 @@ export function ProfileForm({ profile }: { profile: Profile | null }) {
               setValue("phone", formatted, { shouldValidate: true });
             }}
             placeholder="(00) 00000-0000"
-            className="w-full px-4 py-3 rounded-xl bg-zinc-950 border border-zinc-800 text-sm text-foreground focus:border-gold outline-none transition-colors" 
+            className="w-full px-4 py-3 rounded-xl bg-background border border-border text-sm text-foreground focus:border-gold outline-none transition-colors" 
           />
           {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
         </div>
       </div>
 
       <div>
-        <label className="block text-xs font-medium text-zinc-400 mb-1.5">CEP</label>
+        <label className="block text-xs font-medium text-muted-foreground mb-1.5">CEP</label>
         <input 
           {...register("cep")}
           onChange={(e) => {
@@ -140,7 +140,7 @@ export function ProfileForm({ profile }: { profile: Profile | null }) {
             // TODO: Integrar viaCEP aqui no futuro
           }}
           placeholder="00000-000"
-          className="w-full px-4 py-3 rounded-xl bg-zinc-950 border border-zinc-800 text-sm text-foreground focus:border-gold outline-none transition-colors" 
+          className="w-full px-4 py-3 rounded-xl bg-background border border-border text-sm text-foreground focus:border-gold outline-none transition-colors" 
         />
         {errors.cep && <p className="text-red-500 text-xs mt-1">{errors.cep.message}</p>}
       </div>

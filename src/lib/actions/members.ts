@@ -57,10 +57,14 @@ export async function adminDeleteMember(memberId: string): Promise<{ error?: str
     await assertAdmin();
     const adminClient = createAdminClient();
     const { error } = await adminClient.auth.admin.deleteUser(memberId);
-    if (error) return { error: "Erro ao excluir membro." };
+    if (error) {
+      console.error("[adminDeleteMember] Supabase error:", error);
+      return { error: `Erro ao excluir: ${error.message} (status ${error.status ?? "?"})` };
+    }
     revalidatePath("/admin/membros");
     return {};
   } catch (e) {
+    console.error("[adminDeleteMember] Unexpected error:", e);
     return { error: (e as Error).message };
   }
 }

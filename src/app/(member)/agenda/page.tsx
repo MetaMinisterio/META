@@ -260,8 +260,8 @@ export default function AgendaPage() {
 
       {/* Detail modal */}
       {detailItem && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <div className="w-full max-w-sm bg-card border border-border rounded-2xl shadow-2xl animate-fade-in-up">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="w-full max-w-sm bg-card border border-border rounded-2xl shadow-2xl animate-fade-in-up max-h-[85vh] overflow-y-auto">
             <div className="flex items-center justify-between p-4 border-b border-border">
               <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
                 detailItem.kind === "event" ? "bg-gold/20 text-gold" : "bg-pink-500/20 text-pink-500"

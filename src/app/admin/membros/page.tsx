@@ -41,6 +41,7 @@ export default function MembrosPage() {
   const [editForm, setEditForm] = useState({
     full_name: "",
     phone: "",
+    birth_date: "",
     role: "member" as UserRole,
     ministries: "",
     city: "",
@@ -68,6 +69,7 @@ export default function MembrosPage() {
     setEditForm({
       full_name: m.full_name || "",
       phone: m.phone || "",
+      birth_date: m.birth_date || "",
       role: m.role,
       ministries: m.ministries?.join(", ") || "",
       city: m.city || "",
@@ -85,6 +87,7 @@ export default function MembrosPage() {
     const result = await adminUpdateMember(modal.member.id, {
       full_name: editForm.full_name,
       phone: editForm.phone || null,
+      birth_date: editForm.birth_date || null,
       role: editForm.role,
       ministries: editForm.ministries.split(",").map((s) => s.trim()).filter(Boolean),
       city: editForm.city || null,
@@ -280,6 +283,17 @@ export default function MembrosPage() {
                   />
                 </div>
                 <div className="space-y-1.5">
+                  <label className="text-xs font-medium text-muted-foreground">Nascimento</label>
+                  <input
+                    type="date"
+                    value={editForm.birth_date}
+                    onChange={(e) => setEditForm((f) => ({ ...f, birth_date: e.target.value }))}
+                    className="w-full px-3 py-2.5 rounded-lg bg-background border border-border text-sm outline-none focus:border-gold transition-colors"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1.5 col-span-2">
                   <label className="text-xs font-medium text-muted-foreground">Cargo</label>
                   <div className="relative">
                     <select

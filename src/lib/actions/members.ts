@@ -19,6 +19,7 @@ export async function adminUpdateMember(
   data: {
     full_name?: string;
     phone?: string | null;
+    birth_date?: string | null;
     role?: UserRole;
     ministries?: string[];
     city?: string | null;
@@ -59,7 +60,7 @@ export async function adminDeleteMember(memberId: string): Promise<{ error?: str
     const { error } = await adminClient.auth.admin.deleteUser(memberId);
     if (error) {
       console.error("[adminDeleteMember] Supabase error:", error);
-      return { error: `Erro ao excluir: ${error.message} (status ${error.status ?? "?"})` };
+      return { error: "Erro ao excluir membro. Tente novamente." };
     }
     revalidatePath("/admin/membros");
     return {};

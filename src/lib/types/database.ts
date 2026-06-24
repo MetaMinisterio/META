@@ -99,3 +99,32 @@ export type Tithe = {
   status: "pending" | "confirmed" | "cancelled";
   created_at: string;
 };
+
+export type FinancialCategory = {
+  id: string;
+  name: string;
+  type: "income" | "expense";
+  color: string;
+  icon: string | null;
+  is_active: boolean;
+  created_at: string;
+};
+
+export type Transaction = {
+  id: string;
+  type: "income" | "expense";
+  category_id: string | null;
+  amount: number;
+  description: string;
+  payment_method: "pix" | "cash" | "card" | "transfer" | "check" | "other";
+  reference_date: string;
+  responsible_id: string | null;
+  notes: string | null;
+  created_by: string | null;
+  created_at: string;
+  updated_at: string;
+  // Joined
+  financial_categories?: Pick<FinancialCategory, "name" | "color"> | null;
+  responsible?: Pick<Profile, "full_name"> | null;
+  creator?: Pick<Profile, "full_name"> | null;
+};

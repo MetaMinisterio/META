@@ -14,7 +14,7 @@ const links = [
   { href: "/admin/membros",      label: "Membros",       icon: Users },
   { href: "/admin/banners",      label: "Banners",       icon: ImageIcon },
   { href: "/admin/avisos",       label: "Avisos",        icon: Megaphone },
-  { href: "/admin/eventos",      label: "Eventos",       icon: Calendar },
+  { href: "/admin/agenda",       label: "Agenda",        icon: Calendar },
   { href: "/admin/oracoes",      label: "Orações",       icon: HandHeart },
   { href: "/admin/contribuicoes",label: "Contribuições", icon: Heart },
   { href: "/admin/arquivos",     label: "Arquivos",      icon: FolderOpen },

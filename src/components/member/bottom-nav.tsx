@@ -14,7 +14,7 @@ const navItems = [
   { href: "/dashboard", label: "Início", icon: Home },
   { href: "/oracoes", label: "Oração", icon: HandHeart },
   { href: "/contribuir", label: "Ofertar", icon: Heart },
-  { href: "/eventos", label: "Eventos", icon: Calendar },
+  { href: "/agenda", label: "Agenda", icon: Calendar },
   { href: "/perfil", label: "Perfil", icon: User },
 ];
 

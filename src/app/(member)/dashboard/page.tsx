@@ -126,7 +126,7 @@ export default async function DashboardPage() {
               {[
                 { href: "/oracoes", icon: HandHeart, label: "Orar", color: "text-amber-500", bg: "bg-amber-500/10" },
                 { href: "/contribuir", icon: FileText, label: "Ofertar", color: "text-green-500", bg: "bg-green-500/10" },
-                { href: "/eventos", icon: Calendar, label: "Eventos", color: "text-blue-500", bg: "bg-blue-500/10" },
+                { href: "/agenda", icon: Calendar, label: "Agenda", color: "text-blue-500", bg: "bg-blue-500/10" },
                 { href: "/arquivos", icon: Megaphone, label: "Avisos", color: "text-purple-500", bg: "bg-purple-500/10" },
               ].map((item) => (
                 <Link
@@ -157,7 +157,7 @@ export default async function DashboardPage() {
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold tracking-tight">Agenda</h2>
               <Link
-                href="/eventos"
+                href="/agenda"
                 className="text-xs text-gold font-medium hover:text-gold-light transition-colors flex items-center gap-1"
               >
                 Ver todos <ChevronRight className="w-3 h-3" />

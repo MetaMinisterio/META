@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import {
   Users, Search, X, Edit2, Trash2, UserCheck, UserX,
-  ChevronDown, Save, AlertTriangle, Phone, MapPin, Tag,
+  ChevronDown, Save, AlertTriangle, Phone, MapPin, Tag, Calendar,
 } from "lucide-react";
 import { getInitials } from "@/lib/utils";
 import { adminUpdateMember, adminToggleMemberActive, adminDeleteMember } from "@/lib/actions/members";
@@ -47,6 +47,7 @@ export default function MembrosPage() {
     city: "",
     state: "",
     is_active: true,
+    member_since: "",
   });
 
   const load = useCallback(async () => {
@@ -75,6 +76,7 @@ export default function MembrosPage() {
       city: m.city || "",
       state: m.state || "",
       is_active: m.is_active,
+      member_since: m.member_since || "",
     });
     setError(null);
     setModal({ type: "edit", member: m });
@@ -93,6 +95,7 @@ export default function MembrosPage() {
       city: editForm.city || null,
       state: editForm.state || null,
       is_active: editForm.is_active,
+      member_since: editForm.member_since || null,
     });
     if (result.error) {
       setError(result.error);
@@ -109,6 +112,7 @@ export default function MembrosPage() {
                 city: editForm.city || null,
                 state: editForm.state || null,
                 is_active: editForm.is_active,
+                member_since: editForm.member_since || null,
               }
             : m
         )
@@ -205,6 +209,12 @@ export default function MembrosPage() {
                   {m.phone || "Sem telefone"}
                   {m.city ? ` · ${m.city}${m.state ? `/${m.state}` : ""}` : ""}
                   {m.ministries && m.ministries.length > 0 ? ` · ${m.ministries.join(", ")}` : ""}
+                </p>
+                <p className="text-[10px] text-muted-foreground/60 mt-0.5">
+                  {m.member_since
+                    ? `Membro desde ${new Date(m.member_since + "T00:00:00").toLocaleDateString("pt-BR")} · `
+                    : ""}
+                  Cadastrado em {new Date(m.created_at).toLocaleDateString("pt-BR")}
                 </p>
               </div>
 
@@ -339,6 +349,31 @@ export default function MembrosPage() {
                   placeholder="Louvor, Intercessão..."
                   className="w-full px-3 py-2.5 rounded-lg bg-background border border-border text-sm outline-none focus:border-gold transition-colors"
                 />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-medium text-muted-foreground flex items-center gap-1">
+                    <Calendar className="w-3 h-3" />Membro desde
+                  </label>
+                  <input
+                    type="date"
+                    value={editForm.member_since}
+                    onChange={(e) => setEditForm((f) => ({ ...f, member_since: e.target.value }))}
+                    className="w-full px-3 py-2.5 rounded-lg bg-background border border-border text-sm outline-none focus:border-gold transition-colors"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-medium text-muted-foreground flex items-center gap-1">
+                    <Calendar className="w-3 h-3" />Cadastrado em
+                  </label>
+                  <input
+                    type="text"
+                    readOnly
+                    value={new Date(modal.member.created_at).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })}
+                    className="w-full px-3 py-2.5 rounded-lg bg-muted border border-border text-sm text-muted-foreground cursor-default"
+                  />
+                </div>
               </div>
 
               <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50 border border-border">

@@ -25,6 +25,7 @@ export async function adminUpdateMember(
     city?: string | null;
     state?: string | null;
     is_active?: boolean;
+    member_since?: string | null;
   }
 ): Promise<{ error?: string }> {
   try {

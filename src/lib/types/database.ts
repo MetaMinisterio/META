@@ -14,6 +14,7 @@ export type Profile = {
   ministries: string[];
   role: UserRole;
   is_active: boolean;
+  member_since: string | null;
   created_at: string;
   updated_at: string;
 };
